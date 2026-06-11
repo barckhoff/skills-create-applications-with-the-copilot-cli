@@ -1,0 +1,141 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Calculator App — Interactive Demo</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Roboto, 'Segoe UI', Arial; max-width: 900px; margin: 2.5rem auto; padding: 1rem; color:#111 }
+    .card { background:#fff; border-radius:8px; padding:1rem; box-shadow:0 2px 6px rgba(0,0,0,0.08) }
+    label{display:block;margin:0.5rem 0 0.25rem}
+    input[type=number]{width:120px;padding:0.4rem;margin-right:0.5rem}
+    select{padding:0.4rem}
+    button{margin-top:0.75rem;padding:0.5rem 0.75rem;border-radius:6px;border:0;background:#0366d6;color:#fff}
+    pre{background:#f6f8fa;padding:1rem;border-radius:6px;overflow:auto}
+    .result{font-weight:700;margin-top:0.75rem}
+    .note{color:#444;font-size:0.95rem}
+  </style>
+</head>
+<body>
+  <h1>Calculator App — Interactive Demo</h1>
+  <p class="note">This page demonstrates the calculator operations in-browser. It uses the same operation names as the CLI: add (+), subtract (-), multiply (*), divide (/), mod (%), pow (^), sqrt.</p>
+
+  <div class="card">
+    <label>Operand A
+      <input id="a" type="number" step="any" value="2">
+    </label>
+    <label>Operand B
+      <input id="b" type="number" step="any" value="3">
+    </label>
+
+    <label>Operation
+      <select id="op">
+        <option value="add">add (+)</option>
+        <option value="subtract">subtract (-)</option>
+        <option value="multiply">multiply (*)</option>
+        <option value="divide">divide (/)</option>
+        <option value="mod">mod (%)</option>
+        <option value="pow">pow (^)</option>
+        <option value="sqrt">sqrt (unary)</option>
+      </select>
+    </label>
+
+    <button id="run">Calculate</button>
+
+    <div class="result" id="result">Result: <span id="out">—</span></div>
+    <div class="note">Errors (e.g. division by zero or sqrt of negative numbers) are shown below.</div>
+    <pre id="error" style="display:none;color:#a00;background:#fff2f2"></pre>
+  </div>
+
+  <h2>Source</h2>
+  <p>Calculator source (Node.js CLI): <a href="https://github.com/barckhoff/skills-create-applications-with-the-copilot-cli/blob/main/src/calculator.js" target="_blank" rel="noopener">src/calculator.js</a></p>
+  <p>Note: the in-browser demo implements the same operations for demonstration; the CLI is usable with Node.js as shown in the docs.</p>
+
+  <script>
+    // In-browser calculator functions (mirror of src/calculator.js)
+    // Supported operations:
+    //  - add (+)
+    //  - subtract (-)
+    //  - multiply (*)
+    //  - divide (/)
+    //  - mod (%)
+    //  - pow (^) - exponentiation
+    //  - sqrt - square root (unary)
+
+    function toNumber(v) {
+      const n = Number(v);
+      return Number.isFinite(n) ? n : NaN;
+    }
+
+    function add(a, b) { return a + b; }
+    function subtract(a, b) { return a - b; }
+    function multiply(a, b) { return a * b; }
+    function divide(a, b) {
+      if (b === 0) throw new Error('Division by zero');
+      return a / b;
+    }
+    function modulo(a, b) {
+      if (b === 0) throw new Error('Division by zero');
+      return a % b;
+    }
+    function power(base, exponent) { return Math.pow(base, exponent); }
+    function squareRoot(n) {
+      if (n < 0) throw new Error('Square root of negative number');
+      return Math.sqrt(n);
+    }
+
+    document.getElementById('run').addEventListener('click', () => {
+      const op = document.getElementById('op').value;
+      const aRaw = document.getElementById('a').value;
+      const bRaw = document.getElementById('b').value;
+      const out = document.getElementById('out');
+      const err = document.getElementById('error');
+      err.style.display = 'none'; err.textContent = '';
+
+      try {
+        if (op === 'sqrt') {
+          const a = toNumber(aRaw);
+          if (Number.isNaN(a)) throw new Error('Operand must be a number');
+          out.textContent = squareRoot(a);
+          return;
+        }
+        const a = toNumber(aRaw);
+        const b = toNumber(bRaw);
+        if (Number.isNaN(a) || Number.isNaN(b)) throw new Error('Both operands must be numbers');
+        let res;
+        switch(op) {
+          case 'add': res = add(a,b); break;
+          case 'subtract': res = subtract(a,b); break;
+          case 'multiply': res = multiply(a,b); break;
+          case 'divide': res = divide(a,b); break;
+          case 'mod': res = modulo(a,b); break;
+          case 'pow': res = power(a,b); break;
+          default: throw new Error('Unknown operation');
+        }
+        out.textContent = res;
+      } catch (e) {
+        err.style.display = 'block';
+        err.textContent = e.message || String(e);
+        out.textContent = '—';
+      }
+    });
+  </script>
+</body>
+</html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Calculator Repo</title>
+</head>
+<body>
+  <h1>Calculator Repository</h1>
+  <p>This repository is deployed to GitHub Pages.</p>
+  <p>Files of interest:</p>
+  <ul>
+    <li><a href="/blob/create-calc-app/src/calculator.js">src/calculator.js</a></li>
+    <li><a href="/blob/create-calc-app/src/tests/calculator.test.js">src/tests/calculator.test.js</a></li>
+  </ul>
+  <p>Branch: create-calc-app</p>
+</body>
+</html>
