@@ -3,6 +3,59 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Calculator App — Docs</title>
+  <style>
+    body { font-family: system-ui, -apple-system, Roboto, 'Segoe UI', Arial; max-width: 880px; margin: 3rem auto; padding: 1rem; color:#111 }
+    pre { background:#f6f8fa; padding:1rem; border-radius:6px; overflow:auto }
+    a.button { display:inline-block; background:#0366d6; color:#fff; padding:0.5rem 0.75rem; border-radius:6px; text-decoration:none }
+  </style>
+</head>
+<body>
+  <h1>Calculator App</h1>
+  <p>This repository contains a small Node.js CLI calculator (src/calculator.js) that supports the following operations:</p>
+  <ul>
+    <li>Addition (add, +)</li>
+    <li>Subtraction (subtract, -)</li>
+    <li>Multiplication (multiply, *)</li>
+    <li>Division (divide, /)</li>
+    <li>Modulo (mod, %)</li>
+    <li>Exponentiation / Power (pow, ^)</li>
+    <li>Square root (sqrt)</li>
+  </ul>
+
+  <h2>CLI usage</h2>
+  <p>Run the calculator with Node.js from the repository root (example):</p>
+  <pre><code>node src/calculator.js add 5 7    # prints 12
+node src/calculator.js - 10 4      # prints 6
+node src/calculator.js * 45 2      # prints 90
+node src/calculator.js / 20 5      # prints 4
+node src/calculator.js mod 5 2     # prints 1
+node src/calculator.js pow 2 3     # prints 8
+node src/calculator.js sqrt 16     # prints 4
+  </code></pre>
+
+  <h2>Download or view the calculator source</h2>
+  <p>View the calculator source on GitHub:</p>
+  <p><a class="button" href="https://github.com/barckhoff/skills-create-applications-with-the-copilot-cli/blob/main/src/calculator.js" target="_blank" rel="noopener">View src/calculator.js on GitHub</a></p>
+  <p>Direct raw file (useful for curl/wget):</p>
+  <pre><code>https://raw.githubusercontent.com/barckhoff/skills-create-applications-with-the-copilot-cli/main/src/calculator.js</code></pre>
+
+  <h2>Deploying to GitHub Pages</h2>
+  <p>To publish this page on GitHub Pages, enable Pages in the repository settings and set the source to:</p>
+  <ul>
+    <li>Branch: <strong>main</strong> (or the branch you pushed this file to)</li>
+    <li>Folder: <strong>/docs</strong></li>
+  </ul>
+  <p>After enabling Pages, the site will be available at <code>https://&lt;owner&gt;.github.io/&lt;repo&gt;/</code> (the exact URL will be shown in the Pages settings).</p>
+
+  <hr>
+  <p>Built for quick CLI usage and to be easily deployed to GitHub Pages (docs folder).</p>
+</body>
+</html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Calculator Repo</title>
 </head>
 <body>
