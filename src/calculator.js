@@ -29,15 +29,64 @@ function divide(a, b) {
 }
 
 // Programmatic API
-module.exports = { add, subtract, multiply, divide };
+function modulo(a, b) {
+  if (b === 0) {
+    throw new Error('Division by zero');
+  }
+  return a % b;
+}
+
+function power(base, exponent) {
+  return Math.pow(base, exponent);
+}
+
+function squareRoot(n) {
+  if (n < 0) {
+    throw new Error('Square root of negative number');
+  }
+  return Math.sqrt(n);
+}
+
+module.exports = { add, subtract, multiply, divide, modulo, power, squareRoot };
 
 // Simple CLI wrapper
 if (require.main === module) {
-  const [, , opRaw, aRaw, bRaw] = process.argv;
+  const args = process.argv.slice(2);
+  const opRaw = args[0];
 
-  if (!opRaw || aRaw === undefined || bRaw === undefined) {
+  if (!opRaw) {
     console.error('Usage: node src/calculator.js <operation> <num1> <num2>');
-    console.error('Operations: add (+), subtract (-), multiply (*), divide (/)');
+    console.error('Operations: add (+), subtract (-), multiply (*), divide (/), mod (%), pow (^), sqrt');
+    process.exit(2);
+  }
+
+  const op = opRaw.toLowerCase();
+  let aRaw = args[1];
+  let bRaw = args[2];
+
+  // sqrt is a unary operation (requires one operand)
+  if (op === 'sqrt' || op === '√') {
+    if (aRaw === undefined) {
+      console.error('Usage: node src/calculator.js sqrt <num>');
+      process.exit(2);
+    }
+    const a = toNumber(aRaw);
+    if (Number.isNaN(a)) {
+      console.error('Error: operand must be a valid number.');
+      process.exit(3);
+    }
+    try {
+      console.log(squareRoot(a));
+      process.exit(0);
+    } catch (err) {
+      console.error('Error:', err.message || err);
+      process.exit(5);
+    }
+  }
+
+  // For all binary operations ensure both operands are present
+  if (aRaw === undefined || bRaw === undefined) {
+    console.error('Usage: node src/calculator.js <operation> <num1> <num2>');
     process.exit(2);
   }
 
@@ -49,9 +98,7 @@ if (require.main === module) {
     process.exit(3);
   }
 
-  const op = opRaw.toLowerCase();
   let result;
-
   try {
     if (op === 'add' || op === '+') {
       result = add(a, b);
@@ -61,9 +108,13 @@ if (require.main === module) {
       result = multiply(a, b);
     } else if (op === 'divide' || op === 'div' || op === '/') {
       result = divide(a, b);
+    } else if (op === 'mod' || op === '%') {
+      result = modulo(a, b);
+    } else if (op === 'pow' || op === '^') {
+      result = power(a, b);
     } else {
       console.error(`Unknown operation: ${opRaw}`);
-      console.error('Supported operations: add (+), subtract (-), multiply (*), divide (/)');
+      console.error('Supported operations: add (+), subtract (-), multiply (*), divide (/), mod (%), pow (^), sqrt');
       process.exit(4);
     }
   } catch (err) {
