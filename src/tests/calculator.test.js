@@ -1,4 +1,4 @@
-const { add, subtract, multiply, divide } = require('../calculator');
+const { add, subtract, multiply, divide, modulo, power, squareRoot } = require('../calculator');
 
 describe('CLI calculator functions', () => {
   // Examples from the provided image
@@ -18,9 +18,30 @@ describe('CLI calculator functions', () => {
     expect(divide(20, 5)).toBe(4);
   });
 
+  // Extended operations (from calc-extended-operations.png)
+  test('5 % 2 => 1 (modulo)', () => {
+    expect(modulo(5, 2)).toBe(1);
+  });
+
+  test('2 ^ 3 => 8 (power)', () => {
+    expect(power(2, 3)).toBe(8);
+  });
+
+  test('sqrt 16 => 4 (squareRoot)', () => {
+    expect(squareRoot(16)).toBe(4);
+  });
+
   // Edge cases
   test('division by zero throws an error', () => {
     expect(() => divide(5, 0)).toThrow('Division by zero');
+  });
+
+  test('modulo by zero throws an error', () => {
+    expect(() => modulo(5, 0)).toThrow('Division by zero');
+  });
+
+  test('square root of negative number throws an error', () => {
+    expect(() => squareRoot(-9)).toThrow('Square root of negative number');
   });
 
   test('handles negative numbers', () => {
@@ -28,6 +49,10 @@ describe('CLI calculator functions', () => {
     expect(subtract(-2, 3)).toBe(-5);
     expect(multiply(-4, 3)).toBe(-12);
     expect(divide(-20, 5)).toBe(-4);
+  });
+
+  test('power with negative exponent', () => {
+    expect(power(2, -1)).toBeCloseTo(0.5, 10);
   });
 
   test('handles floating point numbers (precision)', () => {
